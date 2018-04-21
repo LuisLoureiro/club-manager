@@ -1,0 +1,21 @@
+{
+  "name": "club-manager",
+  "version": "0.0.1",
+  "description": "API for managing clubs, teams, competitions and seasons",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LuisLoureiro/club-manager.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "clubs",
+    "teams",
+    "competitions",
+    "seasons"
+  ],
+  "author": "LuisLoureiro",
+  "license": "MIT"
+}

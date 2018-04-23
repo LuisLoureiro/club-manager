@@ -5,4 +5,4 @@ API for managing clubs, teams, competitions and seasons.
 
 1. [expressJS](https://expressjs.com/) to serve queries;
 1. [bunyan](https://github.com/trentm/node-bunyan) for logging;
-
+1. [helmet](https://helmetjs.github.io/) to help secure application;

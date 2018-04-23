@@ -1,5 +1,6 @@
 const bunyan = require('bunyan');
 const express = require('express');
+const helmet = require('helmet');
 
 const package = require('./package.json');
 
@@ -9,6 +10,7 @@ const routes = require('./middlewares/routes');
 const app = express();
 const log = bunyan.createLogger({ name: package.name });
 
+app.use(helmet());
 app.use('/api/v1', routes(log));
 app.use(errorHandler(log));
 

@@ -14,4 +14,4 @@ app.use(helmet());
 app.use('/api/v1', routes(log));
 app.use(errorHandler(log));
 
-app.listen(3000, () => log.info(`${package.name} listening on port 3000`));
+app.listen(process.argv[2] || 3000, () => log.info(`${package.name} listening on port ${process.argv[2] || 3000}`));

@@ -4,6 +4,7 @@ const helmet = require('helmet');
 
 const package = require('./package.json');
 
+const db = require('./middlewares/database');
 const errorHandler = require('./middlewares/error');
 const routes = require('./middlewares/routes');
 
@@ -14,4 +15,10 @@ app.use(helmet());
 app.use('/api/v1', routes(log));
 app.use(errorHandler(log));
 
-app.listen(process.argv[2] || 3000, () => log.info(`${package.name} listening on port ${process.argv[2] || 3000}`));
+db.connect().then(() => app.listen(process.argv[2] || 3000,
+  () => log.info(`${package.name} listening on port ${process.argv[2] || 3000}`)),
+  err => log.error(err)
+);
+
+
+

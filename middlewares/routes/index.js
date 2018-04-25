@@ -1,7 +1,7 @@
 const express = require('express');
 
 const competitions = require('./competitions');
-const clubs = require('./clubs');
+const clubs = require('../../api/clubs/routes');
 const seasons = require('./seasons');
 const teams = require('./teams');
 

@@ -1,8 +1,19 @@
 const express = require('express');
 
+const Club = require('../../api/clubs/model');
+
 const router = express.Router();
 
-router.get('/', (req, res) => res.sendStatus(501));
+router.get('/', (req, res) => {
+  Club.find({}, (err, clubs) => {
+    if (err) {
+      throw err;
+    }
+
+    res.send(clubs);
+  });
+});
+
 router.get('/:id', (req, res) => res.sendStatus(501));
 
 router.post('/', (req, res) => res.sendStatus(501));

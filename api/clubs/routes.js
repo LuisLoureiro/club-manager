@@ -30,7 +30,17 @@ router.get('/:id', (req, res, next) => {
   });
 });
 
-router.post('/', (req, res) => res.sendStatus(501));
+router.post('/', (req, res, next) => {
+  const name = req.body.name;
+
+  Club.create({ name }, (err, club) => {
+    if (err) {
+      next(err);
+    } else {
+      res.set('Location', `/${club._id}`).sendStatus(201);
+    }
+  });
+});
 
 router.put('/:id', (req, res) => res.sendStatus(501));
 

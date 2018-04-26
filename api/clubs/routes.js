@@ -14,7 +14,21 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/:id', (req, res) => res.sendStatus(501));
+router.get('/:id', (req, res, next) => {
+  Club.findById(req.params.id, (err, club) => {
+    if (err) {
+      if (err.name === 'CastError') {
+        res.sendStatus(404);
+      } else {
+        next(err);
+      }
+    } else if (!club) {
+      res.sendStatus(404);
+    } else {
+      res.send(club);
+    }
+  });
+});
 
 router.post('/', (req, res) => res.sendStatus(501));
 

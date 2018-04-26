@@ -37,7 +37,8 @@ router.post('/', (req, res, next) => {
     if (err) {
       next(err);
     } else {
-      res.set('Location', `/${club._id}`).sendStatus(201);
+      res.location(`/${club._id}`).status(201);
+      next();
     }
   });
 });

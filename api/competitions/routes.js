@@ -21,7 +21,18 @@ router.get('/:id', (req, res, next) => {
   );
 });
 
-router.post('/', (req, res) => res.sendStatus(501));
+router.post('/', (req, res, next) => {
+  const name = req.body.name;
+
+  Competition.create({ name }, (err, competition) => {
+    if (err) {
+      next(err);
+    } else {
+      res.location(`/${competition._id}`).status(201);
+      next();
+    }
+  });
+});
 
 router.put('/:id', (req, res) => res.sendStatus(501));
 

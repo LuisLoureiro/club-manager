@@ -15,19 +15,9 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => {
-  Club.findById(req.params.id, (err, club) => {
-    if (err) {
-      if (err.name === 'CastError') {
-        res.sendStatus(404);
-      } else {
-        next(err);
-      }
-    } else if (!club) {
-      res.sendStatus(404);
-    } else {
-      res.send(club);
-    }
-  });
+  Club.findById(req.params.id,
+    defaultHandler(res, next, club => res.send(club))
+  );
 });
 
 router.post('/', (req, res, next) => {
@@ -44,7 +34,15 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-  Club.findByIdAndUpdate(req.params.id, req.body.club, (err, club) => {
+  Club.findByIdAndUpdate(req.params.id, req.body.club,
+    defaultHandler(res, next, club => res.sendStatus(204))
+  );
+});
+
+router.delete('/:id', (req, res) => res.sendStatus(501))
+
+function defaultHandler(res, next, handler) {
+  return (err, club) => {
     if (err) {
       if (err.name === 'CastError') {
         res.sendStatus(404);
@@ -54,11 +52,9 @@ router.put('/:id', (req, res, next) => {
     } else if (!club) {
       res.sendStatus(404);
     } else {
-      res.sendStatus(204);
+      handler(club);
     }
-  });
-});
-
-router.delete('/:id', (req, res) => res.sendStatus(501))
+  }
+}
 
 module.exports = router;

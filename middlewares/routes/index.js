@@ -29,7 +29,7 @@ module.exports = logger => {
       res.location(location);
     }
 
-    req.end();
+    res.end();
   });
 
   return router;

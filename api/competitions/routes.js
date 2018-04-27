@@ -40,6 +40,10 @@ router.put('/:id', (req, res, next) => {
   );
 });
 
-router.delete('/:id', (req, res) => res.sendStatus(501))
+router.delete('/:id', (req, res, next) => {
+  Competition.findByIdAndRemove(req.params.id,
+    defaultHandler(res, next, competition => res.sendStatus(200))
+  );
+});
 
 module.exports = router;

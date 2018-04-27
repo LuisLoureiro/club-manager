@@ -34,7 +34,11 @@ router.post('/', (req, res, next) => {
   });
 });
 
-router.put('/:id', (req, res) => res.sendStatus(501));
+router.put('/:id', (req, res, next) => {
+  Competition.findByIdAndUpdate(req.params.id, req.body.competition,
+    defaultHandler(res, next, competition => res.sendStatus(204))
+  );
+});
 
 router.delete('/:id', (req, res) => res.sendStatus(501))
 

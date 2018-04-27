@@ -39,7 +39,11 @@ router.put('/:id', (req, res, next) => {
   );
 });
 
-router.delete('/:id', (req, res) => res.sendStatus(501))
+router.delete('/:id', (req, res, next) => {
+  Club.findByIdAndRemove(req.params.id,
+    defaultHandler(res, next, club => res.sendStatus(200))
+  );
+})
 
 function defaultHandler(res, next, handler) {
   return (err, club) => {

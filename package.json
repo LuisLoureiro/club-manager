@@ -8,9 +8,11 @@
     "url": "https://github.com/LuisLoureiro/club-manager.git"
   },
   "scripts": {
-    "start": "node index.js 3000",
+    "start": "node index.js 3001",
+    "start-debug": "node inspect index.js 3001",
     "start-pretty": "node index.js 3001 | node_modules/bunyan/bin/bunyan",
-    "watch": "node_modules/nodemon/bin/nodemon.js index.js 3000",
+    "watch": "node_modules/nodemon/bin/nodemon.js index.js 3001",
+    "watch-debug": "node_modules/nodemon/bin/nodemon.js --inspect index.js 3001",
     "watch-pretty": "node_modules/nodemon/bin/nodemon.js index.js 3001 | node_modules/bunyan/bin/bunyan",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

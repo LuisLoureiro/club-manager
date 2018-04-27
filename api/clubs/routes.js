@@ -4,10 +4,10 @@ const Club = require('./model');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   Club.find({}, (err, clubs) => {
     if (err) {
-      throw err;
+      next(err);
     }
 
     res.send(clubs);

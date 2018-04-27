@@ -43,7 +43,21 @@ router.post('/', (req, res, next) => {
   });
 });
 
-router.put('/:id', (req, res) => res.sendStatus(501));
+router.put('/:id', (req, res, next) => {
+  Club.findByIdAndUpdate(req.params.id, req.body.club, (err, club) => {
+    if (err) {
+      if (err.name === 'CastError') {
+        res.sendStatus(404);
+      } else {
+        next(err);
+      }
+    } else if (!club) {
+      res.sendStatus(404);
+    } else {
+      res.sendStatus(204);
+    }
+  });
+});
 
 router.delete('/:id', (req, res) => res.sendStatus(501))
 

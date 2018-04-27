@@ -1,6 +1,7 @@
 const express = require('express');
 
 const Club = require('./model');
+const defaultHandler = require('../defaultEntityRequestHandler');
 
 const router = express.Router();
 
@@ -43,22 +44,6 @@ router.delete('/:id', (req, res, next) => {
   Club.findByIdAndRemove(req.params.id,
     defaultHandler(res, next, club => res.sendStatus(200))
   );
-})
-
-function defaultHandler(res, next, handler) {
-  return (err, club) => {
-    if (err) {
-      if (err.name === 'CastError') {
-        res.sendStatus(404);
-      } else {
-        next(err);
-      }
-    } else if (!club) {
-      res.sendStatus(404);
-    } else {
-      handler(club);
-    }
-  }
-}
+});
 
 module.exports = router;

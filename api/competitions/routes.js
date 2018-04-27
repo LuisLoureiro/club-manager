@@ -1,6 +1,7 @@
 const express = require('express');
 
 const Competition = require('./model');
+const defaultHandler = require('../defaultEntityRequestHandler');
 
 const router = express.Router();
 
@@ -14,7 +15,11 @@ router.get('/', (req, res, next) => {
   });
 });
 
-router.get('/:id', (req, res) => res.sendStatus(501));
+router.get('/:id', (req, res, next) => {
+  Competition.findById(req.params.id,
+    defaultHandler(res, next, competition => res.send(competition))
+  );
+});
 
 router.post('/', (req, res) => res.sendStatus(501));
 

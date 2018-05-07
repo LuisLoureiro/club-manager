@@ -39,10 +39,13 @@ describe('Test api/clubs', () => {
 
   describe('GET /clubs/:id', () => {
 
+    let insertedClubs = [];
+
     before(done => {
-      Club.insertMany([ { name: 'FirstClub' } ], err => {
+      Club.insertMany([ { name: 'FirstClub' } ], (err, clubs) => {
         logErrorAndExit(err);
 
+        insertedClubs = clubs;
         done();
       });
     });
@@ -62,6 +65,18 @@ describe('Test api/clubs', () => {
         .then(res => {
           res.should.have.status(404);
         });
+    });
+
+    it('should return a Club object when a valid id is given', () => {
+
+      chai.request(app)
+      .get(`/clubs/${insertedClubs[0].id}`)
+      .then(res => {
+        res.should.have.status(200);
+        res.should.be.json;
+
+        res.body.should.be.an('object').that.includes({ name: 'FirstClub' });
+      });
     });
   });
 });

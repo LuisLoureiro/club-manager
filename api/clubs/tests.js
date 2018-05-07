@@ -2,6 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const express = require('express');
 
+const Club = require('./model');
 const routes = require('./routes');
 const db = require('../../middlewares/database');
 
@@ -18,10 +19,7 @@ describe('Test api/clubs', () => {
   before(() => {
     db.connect('test')
       .then(() => console.log('test database is ready!'))
-      .catch(err => {
-        console.log(err);
-        process.exit();
-      });
+      .catch(logErrorAndExit);
   })
 
   describe('GET /clubs', () => {
@@ -41,6 +39,22 @@ describe('Test api/clubs', () => {
 
   describe('GET /clubs/:id', () => {
 
+    before(done => {
+      Club.insertMany([ { name: 'FirstClub' } ], err => {
+        logErrorAndExit(err);
+
+        done();
+      });
+    });
+
+    after(() => {
+      Club.deleteMany({}, err => {
+        logErrorAndExit(err);
+
+        done();
+      });
+    });
+
     it('should return 404 when id doesn\'t exist', () => {
 
       chai.request(app)
@@ -51,3 +65,10 @@ describe('Test api/clubs', () => {
     });
   });
 });
+
+function logErrorAndExit(err) {
+  if (err) {
+    console.log(err);
+    process.exit();
+  }
+}

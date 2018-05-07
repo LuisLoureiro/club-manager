@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
 module.exports = {
-  connect: (dbHost = 'localhost', dbPort = 27017, dbName = 'development') =>
+  connect: (dbName = 'development', dbPort = 27017, dbHost = 'localhost') =>
     mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`)
 }

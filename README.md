@@ -9,4 +9,6 @@ API for managing clubs, teams, competitions and seasons.
 1. [MongoDB](https://www.mongodb.com/);
 1. [mongoose](http://mongoosejs.com/) for the MongoDB object modeling;
 
+1. [Mocha](https://mochajs.org) and [Chai](http://www.chaijs.com), with the [chai-http](http://www.chaijs.com/plugins/chai-http/) plugin, to test the application;
+
 * [nodemon](http://nodemon.io/) to watch for code changes in development;

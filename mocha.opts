@@ -1,0 +1,6 @@
+
+  --reporter dot
+  --ui bdd
+  --exit
+  --check-leaks
+  --recursive

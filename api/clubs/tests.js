@@ -38,4 +38,16 @@ describe('Test api/clubs', () => {
         });
     });
   });
+
+  describe('GET /clubs/:id', () => {
+
+    it('should return 404 when id doesn\'t exist', () => {
+
+      chai.request(app)
+        .get('/clubs/1')
+        .then(res => {
+          res.should.have.status(404);
+        });
+    });
+  });
 });

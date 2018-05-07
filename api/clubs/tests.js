@@ -50,7 +50,7 @@ describe('Test api/clubs', () => {
       });
     });
 
-    after(() => {
+    after(done => {
       Club.deleteMany({}, err => {
         logErrorAndExit(err);
 
@@ -70,13 +70,13 @@ describe('Test api/clubs', () => {
     it('should return a Club object when a valid id is given', () => {
 
       chai.request(app)
-      .get(`/clubs/${insertedClubs[0].id}`)
-      .then(res => {
-        res.should.have.status(200);
-        res.should.be.json;
+        .get(`/clubs/${insertedClubs[0].id}`)
+        .then(res => {
+          res.should.have.status(200);
+          res.should.be.json;
 
-        res.body.should.be.an('object').that.includes({ name: 'FirstClub' });
-      });
+          res.body.should.be.an('object').that.includes({ name: 'FirstClub' });
+        });
     });
   });
 });

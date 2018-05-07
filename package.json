@@ -14,7 +14,7 @@
     "watch": "node_modules/nodemon/bin/nodemon.js index.js 3001",
     "watch-debug": "node_modules/nodemon/bin/nodemon.js --inspect index.js 3001",
     "watch-pretty": "node_modules/nodemon/bin/nodemon.js index.js 3001 | node_modules/bunyan/bin/bunyan",
-    "test": "node_modules/mocha/bin/mocha --opts mocha.opts **/tests.js"
+    "test": "node_modules/nyc/bin/nyc.js --reporter=text-summary --reporter=html node_modules/mocha/bin/mocha --opts mocha.opts **/tests.js"
   },
   "keywords": [
     "clubs",
@@ -26,14 +26,15 @@
   "license": "MIT",
   "dependencies": {
     "bunyan": "^1.8.12",
-    "chai": "^4.1.2",
-    "chai-http": "^4.0.0",
     "express": "^4.16.3",
     "helmet": "^3.12.0",
-    "mocha": "^5.1.1",
     "mongoose": "^5.0.16"
   },
   "devDependencies": {
-    "nodemon": "^1.17.3"
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "mocha": "^5.1.1",
+    "nodemon": "^1.17.3",
+    "nyc": "^11.7.1"
   }
 }

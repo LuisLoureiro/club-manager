@@ -28,8 +28,7 @@ router.post('/', (req, res, next) => {
     if (err) {
       next(err);
     } else {
-      res.location(`/${competition._id}`).status(201);
-      next();
+      res.location(`${req.originalUrl}/${competition.id}`).status(201).end();
     }
   });
 });

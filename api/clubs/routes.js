@@ -28,8 +28,7 @@ router.post('/', (req, res, next) => {
     if (err) {
       next(err);
     } else {
-      res.location(`/${club._id}`).status(201);
-      next();
+      res.location(`${req.originalUrl}/${club.id}`).status(201).end();
     }
   });
 });

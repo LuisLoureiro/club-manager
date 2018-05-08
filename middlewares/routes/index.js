@@ -20,17 +20,5 @@ module.exports = logger => {
   router.use('/seasons', seasons);
   router.use('/teams', teams);
 
-  router.use((req, res, next) => {
-    const location = `${req.originalUrl}${res.get('Location')}`;
-
-    if (req.method === 'POST') {
-      logger.info(`Setting "Location" header to ${location}`);
-
-      res.location(location);
-    }
-
-    res.end();
-  });
-
   return router;
 }

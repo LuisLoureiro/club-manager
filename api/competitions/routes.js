@@ -5,6 +5,8 @@ const defaultHandler = require('../defaultEntityRequestHandler');
 
 const router = express.Router();
 
+router.use(express.json());
+
 router.get('/', (req, res, next) => {
   Competition.find({}, (err, competitions) => {
     if (err) {

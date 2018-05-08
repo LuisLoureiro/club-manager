@@ -8,8 +8,6 @@ const teams = require('../../api/teams/routes');
 const router = express.Router();
 
 module.exports = logger => {
-  router.use(express.json());
-
   router.use((req, res, next) => {
     logger.info(`${req.method} ${req.originalUrl}`);
     next();

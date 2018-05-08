@@ -5,6 +5,8 @@ const defaultHandler = require('../defaultEntityRequestHandler');
 
 const router = express.Router();
 
+router.use(express.json());
+
 router.get('/', (req, res, next) => {
   Club.find({}, (err, clubs) => {
     if (err) {
@@ -35,7 +37,7 @@ router.post('/', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => {
   Club.findByIdAndUpdate(req.params.id, req.body.club,
-    defaultHandler(res, next, club => res.sendStatus(204))
+    defaultHandler(res, next, club => res.status(204).end())
   );
 });
 

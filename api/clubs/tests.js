@@ -20,7 +20,7 @@ describe('Test api/clubs', () => {
     db.connect('test')
       .then(() => console.log('test database is ready!'))
       .catch(logErrorAndExit);
-  })
+  });
 
   describe('GET /clubs', () => {
 
@@ -77,6 +77,39 @@ describe('Test api/clubs', () => {
 
           res.body.should.be.an('object').that.includes({ name: 'FirstClub' });
         });
+    });
+  });
+
+  describe('POST /clubs', () => {
+
+    after(done => {
+      Club.deleteMany({}, err => {
+        logErrorAndExit(err);
+
+        done();
+      });
+    });
+
+    it('should create a new club', () => {
+
+      const club = { name: 'PostClub' };
+
+      chai.request(app)
+        .post('/clubs')
+        .send(club)
+        .then(res => {
+          res.should.have.status(201);
+          res.should.have.header('Location', /^\/clubs\/.*/);
+        });
+    });
+
+    it('should have one club created', done => {
+
+      Club.find({}, (err, res) => {
+        res.should.have.lengthOf(1);
+
+        done();
+      });
     });
   });
 });

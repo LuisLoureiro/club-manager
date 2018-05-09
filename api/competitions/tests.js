@@ -134,10 +134,22 @@ describe('Test api/competitions', () => {
       });
     });
 
+    it('should return 400 when no competition object is passed in the body', () => {
+
+      chai.request(app)
+        .put(`/competitions/${insertedCompetitions[0].id}`)
+        .then(res => {
+          res.should.have.status(400);
+        });
+    });
+
     it('should return 404 when id doesn\'t exist', () => {
+
+      const changedCompetition = { competition: {} };
 
       chai.request(app)
         .put('/competitions/1')
+        .send(changedCompetition)
         .then(res => {
           res.should.have.status(404);
         });

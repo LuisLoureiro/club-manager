@@ -134,10 +134,22 @@ describe('Test api/clubs', () => {
       });
     });
 
+    it('should return 400 when no club object is passed in the body', () => {
+
+      chai.request(app)
+        .put(`/clubs/${insertedClubs[0].id}`)
+        .then(res => {
+          res.should.have.status(400);
+        });
+    });
+
     it('should return 404 when id doesn\'t exist', () => {
+
+      const changedClub = { club: {} };
 
       chai.request(app)
         .put('/clubs/1')
+        .send(changedClub)
         .then(res => {
           res.should.have.status(404);
         });

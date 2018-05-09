@@ -36,9 +36,13 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-  Competition.findByIdAndUpdate(req.params.id, req.body.competition,
-    defaultHandler(res, next, competition => res.sendStatus(204))
-  );
+  if (!req.body.competition) {
+    res.status(400).end();
+  } else {
+    Competition.findByIdAndUpdate(req.params.id, req.body.competition,
+      defaultHandler(res, next, competition => res.sendStatus(204))
+    );
+  }
 });
 
 router.delete('/:id', (req, res, next) => {

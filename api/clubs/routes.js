@@ -36,9 +36,13 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-  Club.findByIdAndUpdate(req.params.id, req.body.club,
-    defaultHandler(res, next, club => res.status(204).end())
-  );
+  if (!req.body.club) {
+    res.status(400).end();
+  } else {
+    Club.findByIdAndUpdate(req.params.id, req.body.club,
+      defaultHandler(res, next, club => res.sendStatus(204))
+    );
+  }
 });
 
 router.delete('/:id', (req, res, next) => {

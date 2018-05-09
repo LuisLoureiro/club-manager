@@ -1,8 +1,31 @@
 # Club Manager
 API for managing clubs, teams, competitions and seasons.
 
-## TL;DR:
+---
 
+### RUN
+#### start app; listens on port 3001
+`npm run start`
+#### start app with pretty logs; listens on port 3001
+`npm run start-pretty`
+#### start app with debug mode on; listens on port 3001
+`npm run start-debug`
+
+### WATCH FOR CHANGES
+#### watch app for code changes; listens on port 3001
+`npm run watch`
+#### watch app for code changes with pretty logs; listens on port 3001
+`npm run watch-pretty`
+#### watch app for code changes with debug mode on; listens on port 3001
+`npm run watch-debug`
+
+### TEST
+#### execute all tests with code coverage enabled;
+`npm run test`
+
+---
+
+## Dependencies
 1. [expressJS](https://expressjs.com/) to serve queries;
 1. [bunyan](https://github.com/trentm/node-bunyan) for logging;
 1. [helmet](https://helmetjs.github.io/) to help secure application;

@@ -1,0 +1,9 @@
+{
+  "exclude": [
+    "**/tests.js"
+  ],
+  "reporter": [
+    "text-summary",
+    "html"
+  ]
+}

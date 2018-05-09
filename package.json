@@ -14,7 +14,7 @@
     "watch": "node_modules/nodemon/bin/nodemon.js index.js 3001",
     "watch-debug": "node_modules/nodemon/bin/nodemon.js --inspect index.js 3001",
     "watch-pretty": "node_modules/nodemon/bin/nodemon.js index.js 3001 | node_modules/bunyan/bin/bunyan",
-    "test": "node_modules/nyc/bin/nyc.js --reporter=text-summary --reporter=html node_modules/mocha/bin/mocha --opts mocha.opts **/tests.js"
+    "test": "node_modules/nyc/bin/nyc.js node_modules/mocha/bin/mocha --opts mocha.opts **/tests.js"
   },
   "keywords": [
     "clubs",

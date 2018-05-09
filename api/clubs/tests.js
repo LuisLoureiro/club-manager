@@ -112,6 +112,79 @@ describe('Test api/clubs', () => {
       });
     });
   });
+
+  describe('PUT /clubs/:id', () => {
+
+    let insertedClubs = [];
+
+    beforeEach(done => {
+      Club.insertMany([ { name: 'TestPUTClub' } ], (err, clubs) => {
+        logErrorAndExit(err);
+
+        insertedClubs = clubs;
+        done();
+      });
+    });
+
+    afterEach(done => {
+      Club.deleteMany({}, err => {
+        logErrorAndExit(err);
+
+        done();
+      });
+    });
+
+    it('should return 404 when id doesn\'t exist', () => {
+
+      chai.request(app)
+        .put('/clubs/1')
+        .then(res => {
+          res.should.have.status(404);
+        });
+    });
+
+    it('should update club when a valid id is given', done => {
+
+      const changedClub = { club: { name: 'UpdatedClub' } };
+
+      chai.request(app)
+        .put(`/clubs/${insertedClubs[0].id}`)
+        .send(changedClub)
+        .then(res => {
+
+          res.should.have.status(204);
+
+          Club.find({}, (err, clubs) => {
+
+            clubs.should.be.an('array').that.has.lengthOf(1);
+            clubs[0].name.should.be.equal('UpdatedClub');
+
+            done();
+          });
+        });
+    });
+
+    it('should return 204 but shouldn\'t update club when no property is passed', done => {
+
+      const changedClub = { club: {} };
+
+      chai.request(app)
+        .put(`/clubs/${insertedClubs[0].id}`)
+        .send(changedClub)
+        .then(res => {
+
+          res.should.have.status(204);
+
+          Club.find({}, (err, clubs) => {
+
+            clubs.should.be.an('array').that.has.lengthOf(1);
+            clubs[0].name.should.be.equal('TestPUTClub');
+
+            done();
+          });
+        });
+    });
+  });
 });
 
 function logErrorAndExit(err) {

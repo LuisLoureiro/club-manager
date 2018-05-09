@@ -185,6 +185,53 @@ describe('Test api/clubs', () => {
         });
     });
   });
+
+  describe('DELETE /clubs/:id', () => {
+
+    let insertedClubs = [];
+
+    before(done => {
+      Club.insertMany([ { name: 'TestDELETEClub' } ], (err, clubs) => {
+        logErrorAndExit(err);
+
+        insertedClubs = clubs;
+        done();
+      });
+    });
+
+    after(done => {
+      Club.deleteMany({}, err => {
+        logErrorAndExit(err);
+
+        done();
+      });
+    });
+
+    it('should return 404 when id doesn\'t exist', () => {
+
+      chai.request(app)
+        .delete('/clubs/1')
+        .then(res => {
+          res.should.have.status(404);
+        });
+    });
+
+    it('should remove club and return 200', done => {
+
+      chai.request(app)
+        .delete(`/clubs/${insertedClubs[0].id}`)
+        .then(res => {
+          res.should.have.status(200);
+
+          Club.find({}, (err, clubs) => {
+
+            clubs.should.be.an('array').that.is.empty;
+
+            done();
+          });
+        });
+    });
+  });
 });
 
 function logErrorAndExit(err) {

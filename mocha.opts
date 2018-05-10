@@ -4,3 +4,4 @@
   --exit
   --check-leaks
   --recursive
+  --bail

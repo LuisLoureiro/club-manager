@@ -24,15 +24,17 @@ describe('Test api/competitions', () => {
 
   describe('GET /competitions', () => {
 
-    it('should return 200 and have a json type body with an empty array', () => {
+    it('should return 200 and have a json type body with an empty array', done => {
 
       chai.request(app)
         .get('/competitions')
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(200);
           res.should.be.json;
 
           res.body.should.be.an('array').that.is.empty;
+
+          done();
         });
     });
   });
@@ -58,24 +60,28 @@ describe('Test api/competitions', () => {
       });
     });
 
-    it('should return 404 when id doesn\'t exist', () => {
+    it('should return 404 when id doesn\'t exist', done => {
 
       chai.request(app)
         .get('/competitions/1')
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(404);
+
+          done();
         });
     });
 
-    it('should return a Competition object when a valid id is given', () => {
+    it('should return a Competition object when a valid id is given', done => {
 
       chai.request(app)
         .get(`/competitions/${insertedCompetitions[0].id}`)
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(200);
           res.should.be.json;
 
           res.body.should.be.an('object').that.includes({ name: 'FirstCompetition' });
+
+          done();
         });
     });
   });
@@ -90,16 +96,18 @@ describe('Test api/competitions', () => {
       });
     });
 
-    it('should create a new competition', () => {
+    it('should create a new competition', done => {
 
       const competition = { name: 'PostCompetition' };
 
       chai.request(app)
         .post('/competitions')
         .send(competition)
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(201);
           res.should.have.header('Location', /^\/competitions\/.*/);
+
+          done();
         });
     });
 
@@ -134,24 +142,28 @@ describe('Test api/competitions', () => {
       });
     });
 
-    it('should return 400 when no competition object is passed in the body', () => {
+    it('should return 400 when no competition object is passed in the body', done => {
 
       chai.request(app)
         .put(`/competitions/${insertedCompetitions[0].id}`)
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(400);
+
+          done();
         });
     });
 
-    it('should return 404 when id doesn\'t exist', () => {
+    it('should return 404 when id doesn\'t exist', done => {
 
       const changedCompetition = { competition: {} };
 
       chai.request(app)
         .put('/competitions/1')
         .send(changedCompetition)
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(404);
+
+          done();
         });
     });
 
@@ -162,7 +174,7 @@ describe('Test api/competitions', () => {
       chai.request(app)
         .put(`/competitions/${insertedCompetitions[0].id}`)
         .send(changedCompetition)
-        .then(res => {
+        .end((err, res) => {
 
           res.should.have.status(204);
 
@@ -183,7 +195,7 @@ describe('Test api/competitions', () => {
       chai.request(app)
         .put(`/competitions/${insertedCompetitions[0].id}`)
         .send(changedCompetition)
-        .then(res => {
+        .end((err, res) => {
 
           res.should.have.status(204);
 
@@ -219,12 +231,14 @@ describe('Test api/competitions', () => {
       });
     });
 
-    it('should return 404 when id doesn\'t exist', () => {
+    it('should return 404 when id doesn\'t exist', done => {
 
       chai.request(app)
         .delete('/competitions/1')
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(404);
+
+          done();
         });
     });
 
@@ -232,7 +246,7 @@ describe('Test api/competitions', () => {
 
       chai.request(app)
         .delete(`/competitions/${insertedCompetitions[0].id}`)
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(200);
 
           Competition.find({}, (err, competitions) => {

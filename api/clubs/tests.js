@@ -24,15 +24,17 @@ describe('Test api/clubs', () => {
 
   describe('GET /clubs', () => {
 
-    it('should return 200 and have a json type body with an empty array', () => {
+    it('should return 200 and have a json type body with an empty array', done => {
 
       chai.request(app)
         .get('/clubs')
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(200);
           res.should.be.json;
 
           res.body.should.be.an('array').that.is.empty;
+
+          done();
         });
     });
   });
@@ -58,24 +60,28 @@ describe('Test api/clubs', () => {
       });
     });
 
-    it('should return 404 when id doesn\'t exist', () => {
+    it('should return 404 when id doesn\'t exist', done => {
 
       chai.request(app)
         .get('/clubs/1')
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(404);
+
+          done();
         });
     });
 
-    it('should return a Club object when a valid id is given', () => {
+    it('should return a Club object when a valid id is given', done => {
 
       chai.request(app)
         .get(`/clubs/${insertedClubs[0].id}`)
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(200);
           res.should.be.json;
 
           res.body.should.be.an('object').that.includes({ name: 'FirstClub' });
+
+          done();
         });
     });
   });
@@ -90,16 +96,18 @@ describe('Test api/clubs', () => {
       });
     });
 
-    it('should create a new club', () => {
+    it('should create a new club', done => {
 
       const club = { name: 'PostClub' };
 
       chai.request(app)
         .post('/clubs')
         .send(club)
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(201);
           res.should.have.header('Location', /^\/clubs\/.*/);
+
+          done();
         });
     });
 
@@ -134,24 +142,28 @@ describe('Test api/clubs', () => {
       });
     });
 
-    it('should return 400 when no club object is passed in the body', () => {
+    it('should return 400 when no club object is passed in the body', done => {
 
       chai.request(app)
         .put(`/clubs/${insertedClubs[0].id}`)
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(400);
+
+          done();
         });
     });
 
-    it('should return 404 when id doesn\'t exist', () => {
+    it('should return 404 when id doesn\'t exist', done => {
 
       const changedClub = { club: {} };
 
       chai.request(app)
         .put('/clubs/1')
         .send(changedClub)
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(404);
+
+          done();
         });
     });
 
@@ -162,7 +174,7 @@ describe('Test api/clubs', () => {
       chai.request(app)
         .put(`/clubs/${insertedClubs[0].id}`)
         .send(changedClub)
-        .then(res => {
+        .end((err, res) => {
 
           res.should.have.status(204);
 
@@ -183,7 +195,7 @@ describe('Test api/clubs', () => {
       chai.request(app)
         .put(`/clubs/${insertedClubs[0].id}`)
         .send(changedClub)
-        .then(res => {
+        .end((err, res) => {
 
           res.should.have.status(204);
 
@@ -219,12 +231,14 @@ describe('Test api/clubs', () => {
       });
     });
 
-    it('should return 404 when id doesn\'t exist', () => {
+    it('should return 404 when id doesn\'t exist', done => {
 
       chai.request(app)
         .delete('/clubs/1')
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(404);
+
+          done();
         });
     });
 
@@ -232,7 +246,7 @@ describe('Test api/clubs', () => {
 
       chai.request(app)
         .delete(`/clubs/${insertedClubs[0].id}`)
-        .then(res => {
+        .end((err, res) => {
           res.should.have.status(200);
 
           Club.find({}, (err, clubs) => {

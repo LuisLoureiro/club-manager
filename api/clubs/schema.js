@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
-module.exports = mongoose.Schema({
+const Schema = mongoose.Schema;
+
+module.exports = Schema({
   fullName: { type: String, required: true },
   shortName: String,
-  acronym: { type: String, required: true }
+  acronym: { type: String, required: true },
+  teams: [{ type: Schema.Types.ObjectId, ref: 'Team' }]
 });

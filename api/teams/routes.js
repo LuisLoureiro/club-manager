@@ -1,14 +1,54 @@
 const express = require('express');
 
+const Team = require('./model');
+const defaultHandler = require('../defaultEntityRequestHandler');
+
 const router = express.Router();
 
-router.get('/', (req, res) => res.sendStatus(501));
-router.get('/:id', (req, res) => res.sendStatus(501));
+router.use(express.json());
 
-router.post('/', (req, res) => res.sendStatus(501));
+router.get('/', (req, res, next) => {
+  Team.find({}, (err, teams) => {
+    if (err) {
+      next(err);
+    }
 
-router.put('/:id', (req, res) => res.sendStatus(501));
+    res.send(teams);
+  });
+});
 
-router.delete('/:id', (req, res) => res.sendStatus(501))
+router.get('/:id', (req, res, next) => {
+  Team.findById(req.params.id,
+    defaultHandler(res, next, team => res.send(team))
+  );
+});
+
+router.post('/', (req, res, next) => {
+  const name = req.body.name;
+
+  Team.create({ name }, (err, team) => {
+    if (err) {
+      next(err);
+    } else {
+      res.location(`${req.originalUrl}/${team.id}`).status(201).end();
+    }
+  });
+});
+
+router.put('/:id', (req, res, next) => {
+  if (!req.body.team) {
+    res.status(400).end();
+  } else {
+    Team.findByIdAndUpdate(req.params.id, req.body.team,
+      defaultHandler(res, next, team => res.sendStatus(204))
+    );
+  }
+});
+
+router.delete('/:id', (req, res, next) => {
+  Team.findByIdAndRemove(req.params.id,
+    defaultHandler(res, next, team => res.sendStatus(200))
+  );
+});
 
 module.exports = router;

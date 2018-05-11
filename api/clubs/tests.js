@@ -44,7 +44,7 @@ describe('Test api/clubs', () => {
     let insertedClubs = [];
 
     before(done => {
-      Club.insertMany([ { name: 'FirstClub' } ], (err, clubs) => {
+      Club.insertMany([ { fullName: 'First Club', acronym: 'FC' } ], (err, clubs) => {
         logErrorAndExit(err);
 
         insertedClubs = clubs;
@@ -79,7 +79,7 @@ describe('Test api/clubs', () => {
           res.should.have.status(200);
           res.should.be.json;
 
-          res.body.should.be.an('object').that.includes({ name: 'FirstClub' });
+          res.body.should.be.an('object').that.includes({ fullName: 'First Club', acronym: 'FC' });
 
           done();
         });
@@ -96,9 +96,24 @@ describe('Test api/clubs', () => {
       });
     });
 
+    it('should return 400 when any required field is not sent', done => {
+
+      const postClub = { acronym: 'PC' };
+
+      chai.request(app)
+        .post('/clubs')
+        .send(postClub)
+        .end((err, res) => {
+
+          res.should.have.status(400);
+
+          done();
+        });
+    });
+
     it('should create a new club', done => {
 
-      const club = { name: 'PostClub' };
+      const club = { fullName: 'Post Club', acronym: 'PC' };
 
       chai.request(app)
         .post('/clubs')
@@ -115,6 +130,7 @@ describe('Test api/clubs', () => {
 
       Club.find({}, (err, res) => {
         res.should.have.lengthOf(1);
+        res[0].should.includes({ fullName: 'Post Club', acronym: 'PC' });
 
         done();
       });
@@ -126,7 +142,7 @@ describe('Test api/clubs', () => {
     let insertedClubs = [];
 
     beforeEach(done => {
-      Club.insertMany([ { name: 'TestPUTClub' } ], (err, clubs) => {
+      Club.insertMany([ { fullName: 'Test PUT Club', acronym: 'TPC' } ], (err, clubs) => {
         logErrorAndExit(err);
 
         insertedClubs = clubs;
@@ -169,7 +185,7 @@ describe('Test api/clubs', () => {
 
     it('should update club when a valid id is given', done => {
 
-      const changedClub = { club: { name: 'UpdatedClub' } };
+      const changedClub = { club: { shortName: 'Updated Club' } };
 
       chai.request(app)
         .put(`/clubs/${insertedClubs[0].id}`)
@@ -181,7 +197,7 @@ describe('Test api/clubs', () => {
           Club.find({}, (err, clubs) => {
 
             clubs.should.be.an('array').that.has.lengthOf(1);
-            clubs[0].name.should.be.equal('UpdatedClub');
+            clubs[0].shortName.should.be.equal('Updated Club');
 
             done();
           });
@@ -202,7 +218,7 @@ describe('Test api/clubs', () => {
           Club.find({}, (err, clubs) => {
 
             clubs.should.be.an('array').that.has.lengthOf(1);
-            clubs[0].name.should.be.equal('TestPUTClub');
+            clubs[0].should.includes({ fullName: 'Test PUT Club', acronym: 'TPC' });
 
             done();
           });
@@ -215,7 +231,7 @@ describe('Test api/clubs', () => {
     let insertedClubs = [];
 
     before(done => {
-      Club.insertMany([ { name: 'TestDELETEClub' } ], (err, clubs) => {
+      Club.insertMany([ { fullName: 'Test DELETE Club', acronym: 'TDC' } ], (err, clubs) => {
         logErrorAndExit(err);
 
         insertedClubs = clubs;

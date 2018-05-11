@@ -24,15 +24,12 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  const name = req.body.name;
+  const fullName = req.body.fullName;
+  const acronym = req.body.acronym;
 
-  Club.create({ name }, (err, club) => {
-    if (err) {
-      next(err);
-    } else {
-      res.location(`${req.originalUrl}/${club.id}`).status(201).end();
-    }
-  });
+  Club.create({ fullName, acronym }, defaultHandler(res, next,
+    club => res.location(`${req.originalUrl}/${club.id}`).status(201).end())
+);
 });
 
 router.put('/:id', (req, res, next) => {

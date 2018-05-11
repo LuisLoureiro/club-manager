@@ -26,13 +26,9 @@ router.get('/:id', (req, res, next) => {
 router.post('/', (req, res, next) => {
   const name = req.body.name;
 
-  Team.create({ name }, (err, team) => {
-    if (err) {
-      next(err);
-    } else {
-      res.location(`${req.originalUrl}/${team.id}`).status(201).end();
-    }
-  });
+  Team.create({ name }, defaultHandler(res, next,
+    team => res.location(`${req.originalUrl}/${team.id}`).status(201).end())
+  );
 });
 
 router.put('/:id', (req, res, next) => {

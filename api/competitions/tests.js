@@ -96,6 +96,21 @@ describe('Test api/competitions', () => {
       });
     });
 
+    it('should return 400 when a required field is not sent', done => {
+
+      const postCompetition = {};
+
+      chai.request(app)
+        .post('/competitions')
+        .send(postCompetition)
+        .end((err, res) => {
+
+          res.should.have.status(400);
+
+          done();
+        });
+    });
+
     it('should create a new competition', done => {
 
       const competition = { name: 'PostCompetition' };

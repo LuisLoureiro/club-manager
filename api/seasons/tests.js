@@ -96,6 +96,21 @@ describe('Test api/seasons', () => {
       });
     });
 
+    it('should return 400 when a required field is not sent', done => {
+
+      const postSeason = {};
+
+      chai.request(app)
+        .post('/seasons')
+        .send(postSeason)
+        .end((err, res) => {
+
+          res.should.have.status(400);
+
+          done();
+        });
+    });
+
     it('should create a new season', done => {
 
       const season = { name: 'PostSeason' };

@@ -19,3 +19,5 @@ db.connect().then(() => app.listen(process.argv[2] || 3000,
   () => log.info(`${package.name} listening on port ${process.argv[2] || 3000}`)),
   err => log.error(err)
 );
+
+module.exports = app;

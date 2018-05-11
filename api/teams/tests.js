@@ -96,6 +96,21 @@ describe('Test api/teams', () => {
       });
     });
 
+    it('should return 400 when a required field is not sent', done => {
+
+      const postTeam = {};
+
+      chai.request(app)
+        .post('/teams')
+        .send(postTeam)
+        .end((err, res) => {
+
+          res.should.have.status(400);
+
+          done();
+        });
+    });
+
     it('should create a new team', done => {
 
       const team = { name: 'PostTeam' };

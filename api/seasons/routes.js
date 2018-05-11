@@ -26,13 +26,9 @@ router.get('/:id', (req, res, next) => {
 router.post('/', (req, res, next) => {
   const name = req.body.name;
 
-  Season.create({ name }, (err, season) => {
-    if (err) {
-      next(err);
-    } else {
-      res.location(`${req.originalUrl}/${season.id}`).status(201).end();
-    }
-  });
+  Season.create({ name }, defaultHandler(res, next,
+    season => res.location(`${req.originalUrl}/${season.id}`).status(201).end())
+  );
 });
 
 router.put('/:id', (req, res, next) => {

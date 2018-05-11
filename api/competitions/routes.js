@@ -26,13 +26,9 @@ router.get('/:id', (req, res, next) => {
 router.post('/', (req, res, next) => {
   const name = req.body.name;
 
-  Competition.create({ name }, (err, competition) => {
-    if (err) {
-      next(err);
-    } else {
-      res.location(`${req.originalUrl}/${competition.id}`).status(201).end();
-    }
-  });
+  Competition.create({ name }, defaultHandler(res, next,
+    competition => res.location(`${req.originalUrl}/${competition.id}`).status(201).end())
+  );
 });
 
 router.put('/:id', (req, res, next) => {

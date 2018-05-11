@@ -3,6 +3,8 @@ module.exports = (res, next, handler) => {
     if (err) {
       if (err.name === 'CastError') {
         res.sendStatus(404);
+      } else if (err.name === 'ValidationError') {
+        res.sendStatus(400);
       } else {
         next(err);
       }

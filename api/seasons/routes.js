@@ -1,7 +1,7 @@
 const express = require('express');
 
 const Season = require('./model');
-const defaultHandler = require('../defaultEntityRequestHandler');
+const defaultHandler = require('../../middlewares/routes/defaultEntityRequestHandler');
 
 const router = express.Router();
 
